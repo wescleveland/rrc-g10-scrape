@@ -12,3 +12,6 @@ Licensed under the MIT license.
 
 exports.awesome = ()->
   'awesome'
+
+exports.scrape_lease_detail_urls = () ->
+  ['sample_url_1', 'sample_url_2', 'etc', 'etc']

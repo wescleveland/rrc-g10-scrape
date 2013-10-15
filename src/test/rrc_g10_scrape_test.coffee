@@ -1,21 +1,11 @@
 'use strict'
 
-require 'mocha-cakes'
-
-rrc-g10-scrape = require '../lib/rrc-g10-scrape.js'
+rrc_g10_scrape = require '../lib/rrc_g10_scrape.js'
 
 ###
-======== A Handy Little Mocha-cakes Reference ========
-https://github.com/quangv/mocha-cakes
+======== A Handy Little Mocha Reference ========
 https://github.com/visionmedia/should.js
 https://github.com/visionmedia/mocha
-
-Mocha-cakes:
-  Feature, Scenario: maps to describe
-  Given, When, Then: maps to it,
-    but if first message argument is ommited, it'll be a describe
-  And, But, I: maps to it,
-    but if first message argument is ommited, it'll be a describe
 
 Mocha hooks:
   before ()-> # before describe
@@ -62,18 +52,8 @@ Should assertions:
   user.should.be.a('object').and.have.property('name', 'tj')
 ###
 
-Feature "New Feature",
-  "In order to use cool feature",
-  "as a new user",
-  "I want do include this", ->
+describe 'Scaper', ()->
+  it 'should grab a list of Lease URLs', ()->
+    rrc_g10_scrape.scrape_lease_detail_urls().should.be.an.instanceOf(Array)
 
-    Scenario "Singing", ->
-
-      voice = null
-
-      Given "I am a awesome singing", ->
-      When "I sing", ->
-        voice = rrc-g10-scrape.awesome()
-      Then "it should sound awesome", ->
-        voice.should.eql 'awesome'
 

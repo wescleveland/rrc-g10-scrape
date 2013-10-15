@@ -7,7 +7,7 @@ Install the module with: `npm install rrc-g10-scrape`
 
 ```javascript
 var rrc-g10-scrape = require('rrc-g10-scrape');
-rrc-g10-scrape.awesome(); // "awesome"
+rrc-g10-scrape.scrape();
 ```
 
 ## Documentation
@@ -15,9 +15,6 @@ _(Coming soon)_
 
 ## Examples
 _(Coming soon)_
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
 _(Nothing yet)_

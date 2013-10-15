@@ -1,7 +1,7 @@
 {
-  "name": "rrc-g10-scrape",
+  "name": "rrc_g10_scrape",
   "version": "0.0.0",
-  "main": "lib/rrc-g10-scrape.js",
+  "main": "lib/rrc_g10_scrape.js",
   "description": "Scraper for G10 reports on RRC",
   "homepage": "https://github.com/wescleveland/rrc-g10-scrape",
   "bugs": "https://github.com/wescleveland/rrc-g10-scrape/issues",
