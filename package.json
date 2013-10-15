@@ -1,0 +1,32 @@
+{
+  "name": "rrc-g10-scrape",
+  "version": "0.0.0",
+  "main": "lib/rrc-g10-scrape.js",
+  "description": "Scraper for G10 reports on RRC",
+  "homepage": "https://github.com/wescleveland/rrc-g10-scrape",
+  "bugs": "https://github.com/wescleveland/rrc-g10-scrape/issues",
+  "author": {
+    "name": "Wes Cleveland",
+    "email": "wescleveland@me.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wescleveland/rrc-g10-scrape"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.5.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-coffeelint": "~0.0.7",
+    "grunt-simple-mocha": "~0.4.0",
+    "should": "~1.2.2",
+    "matchdep": "~0.1.2",
+    "mocha-cakes": "~0.9.0",
+    "grunt": "~0.4.1"
+  }
+}
