@@ -1,6 +1,7 @@
 'use strict'
 
-rrc_g10_scrape = require '../lib/rrc_g10_scrape.js'
+should = require 'should'
+Scraper = require('../lib/rrc_g10_scrape.js').Scraper
 
 ###
 ======== A Handy Little Mocha Reference ========
@@ -52,8 +53,21 @@ Should assertions:
   user.should.be.a('object').and.have.property('name', 'tj')
 ###
 
-describe 'Scaper', ()->
-  it 'should grab a list of Lease URLs', ()->
-    rrc_g10_scrape.scrape_lease_detail_urls().should.be.an.instanceOf(Array)
+describe 'Scaper', () ->
+  describe 'run scraper', () ->
+    total_leases = 0
+    it 'should invoke callback func with multiple leases', () ->
+      handler = (err, result) ->
+        return done(err) if err? and err.instanceOf Error
+        result.should.exist
+        total_leases += 1
+      (new Scraper()).run("01", "PR", handler)
+
+    after (done) ->
+      console.log "Found #{total_leases} leases"
+      total_leases.should.be.above 0
+      done()
+
+
 
 
