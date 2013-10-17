@@ -53,7 +53,7 @@ and if this is true then dump our lease list into a csv...
 
 In the real world, you would be inserting to a database or something...
 ###
-maxPages = 10  # 100 results per page
+maxPages = 2  # 100 results per page
 leases = []
 
 csv_fields = [
@@ -117,6 +117,8 @@ scraper.on 'parsedLeaseG10', (lease) ->
   leases.push(lease)
   if total_leases_scraped == (maxPages * 100)
     # Scraping is done
+    # This is bad, if a lease fails then we don't get here!  But it works for
+    # testing purposes.
     json2csv {data: leases, fields: csv_fields}, (err, csv) ->
       if err?
         console.log(err)
