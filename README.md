@@ -1,23 +1,20 @@
-# rrc_g10_scrape [![Build Status](https://secure.travis-ci.org/wescleveland/rrc-g10-scrape.png?branch=master)](http://travis-ci.org/wescleveland/rrc-g10-scrape)
+# RRC G10 Data Scraper
 
-Scraper for G10 reports on RRC
+Scraper for G10 reports from RRC Database
 
-## Getting Started
-Install the module with: `npm install rrc-g10-scrape`
+Written in CoffeeScript, uses request and cheerio.
 
+## Quick Start
 ```javascript
-var rrc-g10-scrape = require('rrc-g10-scrape');
-rrc-g10-scrape.scrape();
+coffee run.coffee
 ```
 
-## Documentation
-_(Coming soon)_
+Or to run tests:
+```javascript
+grunt compile
+grunt test
+```
 
-## Examples
-_(Coming soon)_
-
-## Release History
-_(Nothing yet)_
-
-## License
-Copyright (c) 2013 Wes Cleveland. Licensed under the MIT license.
+## TODO
+Output to csv file
+Lots of other todo's within the code...
