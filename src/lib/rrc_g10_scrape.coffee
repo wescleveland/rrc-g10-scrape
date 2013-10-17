@@ -33,6 +33,7 @@ class Scraper extends EventEmitter
       parseLeaseListError = Emits an error with the following attribs:
         - url: the url that we attempted to parse
         - stack: the error's stacktrace
+        - code: response status code
         - body: the html body we attempted to parse
 
       fetchedLeaseDetails = Emits (response, body) from request.get
@@ -45,6 +46,7 @@ class Scraper extends EventEmitter
         - url: the url that we attempted to parse
         - stack: the error's stacktrace
         - body: the html body we attempted to parse
+        - code: response status code
         - lease: whatever we did manage to grab from the lease details
 
       fetchedLeaseG10 = emits (lease, response, body)
@@ -55,6 +57,7 @@ class Scraper extends EventEmitter
         - url: the url that we attempted to parse
         - stack: the error's stacktrace
         - body: the html body we attempted to parse
+        - code: response status code
         - lease: whatever we have managed to parse so far
   ###
   # TODO: automatically determine total number of lease pages
@@ -139,7 +142,7 @@ geSize=100&pager.offset=#{offset}"
       lease.api = row[5].children[0].data.replace /^\s+|\s+$/g, ""
       lease.district = row[7].children[0].data.replace /^\s+|\s+$/g, ""
       lease.lease_num = row[9].children[1].children[0].data.replace /^\s+|\s+$/g, ""
-      lease.lease_name = row[11].children[0].data.replace /^\s+|\s+$/g, ""
+      lease.lease_name = row[11].children[0].data.replace(/^\s+|\s+$/g, "").replace(/&#034;/g, "")
       lease.well_num = row[12].children[0].data.replace /^\s+|\s+$/g, ""
       lease.field_num = row[13].children[1].children[0].data.replace /^\s+|\s+$/g, ""
       lease.field_name = row[14].children[0].data.replace /^\s+|\s+$/g, ""
@@ -183,7 +186,7 @@ geSize=100&pager.offset=#{offset}"
       lease.field_type = top.children[1].children[7].children[0].children[0].data.replace /^\s+|\s+$/g, ""
       lease.operator_name = top.children[3].children[3].children[0].children[0].data.replace /^\s+|\s+$/g, ""
       lease.operator_num = top.children[3].children[7].children[0].children[0].data.replace /^\s+|\s+$/g, ""
-      lease.lease_name = top.children[5].children[3].children[0].children[0].data.replace /^\s+|\s+$/g, ""
+      lease.lease_name = top.children[5].children[3].children[0].children[0].data.replace(/^\s+|\s+$/g, "").replace(/&#034;/g, "")
       lease.lease_num = top.children[5].children[7].children[0].children[0].data.replace /^\s+|\s+$/g, ""
       lease.well_num = top.children[7].children[3].children[0].children[0].data.replace /^\s+|\s+$/g, ""
       lease.api = top.children[7].children[7].children[0].children[0].data.replace /^\s+|\s+$/g, ""
@@ -192,13 +195,20 @@ geSize=100&pager.offset=#{offset}"
       lease.monthly_allowable = top.children[11].children[1].children[3].children[0].children[0].data.replace /\s/g, ""
       if top.children[11].children[1].children[7].children[0].children.length > 0
         lease.top_allowable = (Number) top.children[11].children[1].children[7].children[0].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.top_allowable = null
       details = $('.GroupBox1')[1]
       lease.well_type = details.children[3].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.capability = (Number) details.children[5].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.special_daily_amount = (Number) details.children[7].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       if details.children[9].children[3].children.length > 0
         lease.special_allowable_code = details.children[9].children[3].children[0].data.replace /^\s+|\s+$/g, ""
-      lease.k2_special_flag = details.children[11].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.special_allowable_code = null
+      if details.children[11].children[3].children.length > 0
+        lease.k2_special_flag = details.children[11].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.k2_special_flag = null
       lease.deliverability_mcf = (Number) details.children[13].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.calc_deliv_potential = (Number) details.children[15].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.shut_in_pressure = (Number) details.children[17].children[3].children[0].data.replace /^\s+|\s+$/g, ""
@@ -211,21 +221,38 @@ geSize=100&pager.offset=#{offset}"
       lease.acres = (Number) details.children[31].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       if details.children[33].children[3].children.length > 0
         lease.g1_test = details.children[33].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.g1_test = null
       lease.g1_test_gas = details.children[35].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       if details.children[37].children[3].children.length > 0
         lease._14_b2_flag = details.children[37].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease._14_b2_flag = null
       lease._14_b2_code = details.children[39].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       if details.children[41].children[3].children.length > 0
         lease._14_b2_date = details.children[41].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease._14_b2_date = null
       if details.children[43].children[3].children.length > 0
         lease.form_lack = details.children[43].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.form_lack = null
       lease.exception_g10_test = details.children[45].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.exception_bhp_test = details.children[47].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.exception_sip_test = details.children[49].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       test_info = $('.GroupBox1')[2]
-      lease.test_type = test_info.children[3].children[3].children[0].data.replace /^\s+|\s+$/g, ""
-      lease.test_date = test_info.children[5].children[3].children[0].data.replace /^\s+|\s+$/g, ""
-      lease.effective_date = test_info.children[7].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      if test_info.children[3].children[3].children.length > 0
+        lease.test_type = test_info.children[3].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.test_type = null
+      if test_info.children[5].children[3].children.length > 0
+        lease.test_date = test_info.children[5].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.test_date = null
+      if test_info.children[7].children[3].children > 0
+        lease.effective_date = test_info.children[7].children[3].children[0].data.replace /^\s+|\s+$/g, ""
+      else
+        lease.effective_date = null
       lease.gas_mcf = (Number) test_info.children[9].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.condensate_bbls = (Number) test_info.children[11].children[3].children[0].data.replace /^\s+|\s+$/g, ""
       lease.water_bbls = (Number) test_info.children[13].children[3].children[0].data.replace /^\s+|\s+$/g, ""
